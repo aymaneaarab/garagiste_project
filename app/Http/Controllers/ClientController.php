@@ -14,7 +14,7 @@ class ClientController extends Controller
     }
     public function store(Request $request)
     {
-        $userID = 1;
+        // $userID = Auth::user();
 
         $data = $request->validate(
             [
@@ -25,8 +25,25 @@ class ClientController extends Controller
 
             ]
         );
-        $data['userID'] = $userID;
-        $newClient = Client::create($data);
+        // $data['userID'] = $userID;
+        $newClient = new Client;
+        $data = $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'address' => 'required',
+            'phoneNumber' => 'required'
+        ]);
+        
+        $newClient = new Client;
+        $newClient->firstName = $data['firstName'];
+        $newClient->lastName = $data['lastName'];
+        $newClient->address = $data['address'];
+        $newClient->phoneNumber = $data['phoneNumber'];
+        $newClient->UserID=1;
+        $newClient->save();
+        
+
+        // $newClient = Client::create($data);
         return redirect(route('dashboard'));
     }
 }
